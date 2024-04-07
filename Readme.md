@@ -8,6 +8,13 @@ This project is focused on building a speech recognition system using a deep lea
 
 The dataset used for training the model is the Speech Commands Dataset, created by the TensorFlow and AIY teams. This dataset comprises 65,000 one-second-long utterances of 30 short words, recorded by thousands of different people. The contributions come from members of the public through the AIY website. This diverse collection of speech recordings is instrumental in training our model to recognize different speech patterns accurately.
 
+The voice command words: 
+
+`'sheila', 'seven', 'right', 'one', 'house', 'down', 'zero', 'go',
+          'yes', 'wow', 'six', 'no', 'three', 'happy', 'bird', 'stop', 'marvin',
+          'two', 'five', 'on', 'off', 'four', 'dog', 'up', 'tree', 'cat', 'bed',
+          'nine', 'eight', 'left'`
+
 To download the dataset, run the `download_data.py` script included in the project. This script automates the process of downloading and extracting the speech recognition dataset. For more information about the dataset and its creation, visit the official announcement on Google's Research Blog: [Launching the Speech Commands Dataset](https://blog.research.google/2017/08/launching-speech-commands-dataset.html).
 
 ### Model Architecture
