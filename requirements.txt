@@ -1,5 +1,6 @@
 torch
 matplotlib
-torchaudio
 soundfile
 pytest
+librosa
+requests

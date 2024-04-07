@@ -1,21 +1,13 @@
-import matplotlib.pyplot as plt
-import torch
-import torchaudio
+from os import listdir
+
+import librosa
+import numpy as np
 
 
-class Spectrogram:
-    def __init__(self, n_fft=400, hop_length=160, win_length=400):
-        """
-        Initialize the Spectrogram object with necessary parameters for the STFT transformation.
+class Mfcc:
 
-        :param n_fft: Number of FFT components.
-        :param hop_length: Number of audio samples between adjacent STFT columns.
-        :param win_length: Window size.
-        """
-        self.n_fft = n_fft
-        self.hop_length = hop_length
-        self.win_length = win_length
-        self.window = torch.hann_window(win_length)
+    def __init__(self):
+        pass
 
     def load_audio(self, filepath):
         """
@@ -24,31 +16,32 @@ class Spectrogram:
         :param filepath: Path to the audio file.
         :return: Waveform and sample rate.
         """
-        waveform, sample_rate = torchaudio.load(filepath)
-        return waveform.squeeze(0), sample_rate  # Assuming single-channel audio
+        audio, sr = librosa.load(filepath, sr=16000)  # Explicitly setting the sample rate
+        return audio, sr
 
-    def to_tensor(self, waveform):
+    def get_mfccs(self, filepath):
         """
-        Converts an audio waveform to a spectrogram tensor.
+        Extracts MFCCs from an audio file and pads them to a fixed size.
 
-        :param waveform: Audio waveform tensor.
-        :return: Spectrogram tensor in dB scale.
+        :param filepath: Path to the audio file.
+        :return: Padded MFCCs.
         """
-        spec = torch.stft(waveform, n_fft=self.n_fft, hop_length=self.hop_length,
-                          win_length=self.win_length, window=self.window, center=True,
-                          normalized=False, onesided=True, return_complex=True)
-        spec_mag = torch.abs(spec)
-        spec_mag_db = torch.log10(spec_mag + 1e-6) * 20  # Convert to dB
-        return spec_mag_db
+        # Extract MFCCs
+        audio, sr = self.load_audio(filepath)
+        mfccs = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=13)  # Corrected function call
+        # Padding
+        mfccs_padded = np.pad(mfccs, ((0, 0), (0, 50 - mfccs.shape[1])), mode='constant', constant_values=0)
+        return mfccs_padded.T
 
-    def plot_spectrogram(self, spec_mag_db):
-        """
-        Plots the spectrogram.
 
-        :param spec_mag_db: Spectrogram tensor in dB scale.
-        """
-        plt.figure(figsize=(20, 4))
-        plt.imshow(spec_mag_db.numpy(), cmap='hot', aspect='auto', origin='lower')
-        plt.title('Spectrogram')
-        plt.xlabel('Time')
-        plt.ylabel('Frequency')
+if __name__ == "__main__":
+    mfcc = Mfcc()
+    files = listdir('data/bed')[0:25]
+    for file in files:
+        output = mfcc.get_mfccs(f"data/bed/{file}")
+        print(output.shape)
+
+    files = listdir('data/bird')[0:25]
+    for file in files:
+        output = mfcc.get_mfccs(f"data/bird/{file}")
+        print(output.shape)
