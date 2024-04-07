@@ -12,10 +12,10 @@ mlflow.set_experiment(experiment_name)
 
 # Parameters
 input_size = 128  # Number of MFCC features
-hidden_size = 128  # Number of features in the hidden state
-num_layers = 2  # Number of stacked LSTM layers
+hidden_size = 512  # Number of features in the hidden state
+num_layers = 4  # Number of stacked LSTM layers
 num_classes = 30  # Update based on the number of labels you have
-learning_rate = 0.01
+learning_rate = 0.001
 labels = ['sheila', 'seven', 'right', 'one', 'house', 'down', 'zero', 'go',
           'yes', 'wow', 'six', 'no', 'three', 'happy', 'bird', 'stop', 'marvin',
           'two', 'five', 'on', 'off', 'four', 'dog', 'up', 'tree', 'cat', 'bed',
@@ -28,10 +28,10 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
 # Data loading
 dataset = MFCCDataset('data/testing_list.txt', 'data')  # Update paths accordingly
-dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
 
 # Training loop
-num_epochs = 10
+num_epochs = 30
 
 # Start MLflow run
 with mlflow.start_run():

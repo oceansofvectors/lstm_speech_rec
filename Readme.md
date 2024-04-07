@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is focused on building a speech recognition system using a deep learning approach. It utilizes a Long Short-Term Memory (LSTM) network to classify audio signals into predefined categories. The project is currently in progress, with the model converging, although the loss is still higher than desired. Several adjustments, techniques, and normalization methods are under consideration for improvement.
+This project is focused on building a speech recognition system using a deep learning approach. It utilizes a Long Short-Term Memory (LSTM) network to classify audio signals into predefined categories. The project is currently in progress, with the model converging, although the loss is still slightly higher than desired, at `0.85`. Several adjustments, techniques, and normalization methods are under consideration for improvement.
 
 ### Dataset
 
@@ -32,22 +32,18 @@ The first step involves preprocessing the raw audio data to ensure consistency a
 - **Trimming Silence:** Silence at the beginning and end of each audio clip is removed using `librosa.effects.trim`. This focuses the model's attention on the relevant parts of the audio signal.
 - **Volume Normalization:** The volume of each audio clip is normalized to a consistent level. This is achieved by calculating the root mean square (RMS) of the audio signal, which provides a measure of its power. The audio signal is then scaled so that it achieves a desired RMS value. In our implementation, the desired RMS value is set to 0.1. This step ensures that the loudness of each audio file is consistent, reducing the model's sensitivity to variations in recording levels.
 
-#### Feature Normalization
-
-After extracting the Mel-Frequency Cepstral Coefficients (MFCCs) from the audio, further normalization is applied to these features:
-
-- **Handling Non-Finite Values:** Before normalizing the MFCCs, we check for and handle any non-finite values (NaNs or infinite values) by replacing them with zeros. This step is crucial for maintaining numerical stability.
-- **MFCC Normalization:** The MFCCs are normalized to have zero mean and unit variance if the mean and standard deviation are pre-calculated and provided. This type of normalization, often referred to as standard score or z-score normalization, is standard practice in machine learning to ensure that all features contribute equally to the distance calculations and gradient descent optimizations.
-
 ### Current Accuracy
 
-As of the latest model evaluation, the accuracy of the speech recognition system stands at `0.56` on a test dataset of 6000 samples. 
+As of the latest model evaluation, the accuracy of the speech recognition system stands at `0.85` on a test dataset of 6000 samples. 
+
+![Screenshot 2024-04-07 at 12.33.16.png](Screenshot%202024-04-07%20at%2012.33.16.png)
 
 ### How to Run
 
 1. Download the dataset by running the `download_data.py` script.
-2. Train the model using the provided training script.
-3. Evaluate the model's performance and iterate on the model design based on the results.
+2. Calculate some data required for normalization by running `feature_extractor.py`. See above for normalization details.
+2. Train the model using the provided training script, `train.py`. A checkpoint will be created.
+3. Evaluate the model by running `test.py`
 
 ### Dependencies
 

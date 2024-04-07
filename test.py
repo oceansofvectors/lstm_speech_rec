@@ -41,7 +41,7 @@ def evaluate_model(model, data_loader, device):
     return accuracy, report
 
 # Load your model (replace 'path_to_your_model.ckpt' with the actual model path)
-model_path = 'model1712466047.2173529.ckpt'
+model_path = 'model1712514588.0226638.ckpt'
 model = load_model(model_path)
 
 # Assuming the use of a GPU if available
