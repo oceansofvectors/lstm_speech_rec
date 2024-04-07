@@ -2,4 +2,8 @@ data
 venv
 .DS_Store
 .idea
+*.npz
 __pycache__
+*.ckpt
+mlruns
+.ipynb_checkpoints

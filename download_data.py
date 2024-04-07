@@ -1,6 +1,7 @@
-import requests
-import tarfile
 import os
+import tarfile
+
+import requests
 
 
 def download_and_extract(url, extract_to='data'):
@@ -16,6 +17,7 @@ def download_and_extract(url, extract_to='data'):
         os.makedirs(extract_to)
 
     # Download the file
+    print("Downloading dataset..")
     response = requests.get(url, stream=True)
     if response.status_code == 200:
         # Define the local filename to save data
@@ -28,6 +30,7 @@ def download_and_extract(url, extract_to='data'):
                     file.write(chunk)
 
         # Extract the tar.gz file
+        print("Extracting file..")
         if file_path.endswith('.tar.gz'):
             with tarfile.open(file_path, 'r:gz') as tar:
                 tar.extractall(path=extract_to)
